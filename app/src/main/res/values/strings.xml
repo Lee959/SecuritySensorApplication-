@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SecuritySensorApplication</string>
+    <string name="app_name">智能安防</string>
+    <string name="security_status">安全系统状态</string>
+    <string name="armed">已布防</string>
+    <string name="disarmed">已撤防</string>
+    <string name="arm">布防</string>
+    <string name="disarm">撤防</string>
+    <string name="device_list">安防设备列表</string>
+    <string name="event_log">事件日志</string>
+    <string name="online">在线</string>
+    <string name="offline">离线</string>
+    <string name="simulate_trigger">模拟触发</string>
+    <string name="device_details">设备详情</string>
+    <string name="confirm">确认</string>
+    <string name="motion_alarm">移动警报</string>
+    <string name="smoke_alarm">烟雾警报</string>
+    <string name="login_success">登录成功</string>
 </resources>
