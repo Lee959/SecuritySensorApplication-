@@ -60,17 +60,16 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         // Set icon based on device type using standard Android icons instead of custom drawables
         switch (device.getDeviceType()) {
             case DeviceTypeCode.MOTION_SENSOR_ZONE:
-                holder.deviceIcon.setImageResource(android.R.drawable.ic_menu_compass);
+                holder.deviceIcon.setImageResource(R.drawable.motion_sensor_24px);
                 break;
             case DeviceTypeCode.SMOKE_SENSOR_ZONE:
-                holder.deviceIcon.setImageResource(android.R.drawable.ic_dialog_alert);
+                holder.deviceIcon.setImageResource(R.drawable.detector_smoke_24px);
                 break;
             case DeviceTypeCode.WARN_SENSOR:
-                holder.deviceIcon.setImageResource(android.R.drawable.ic_lock_lock);
+                holder.deviceIcon.setImageResource(R.drawable.light_sound_sensor_24px);
                 break;
             default:
-                // Use a default icon for other device types
-                holder.deviceIcon.setImageResource(android.R.drawable.ic_dialog_info);
+                holder.deviceIcon.setImageResource(R.drawable.device_unknown_24px);
                 break;
         }
 
