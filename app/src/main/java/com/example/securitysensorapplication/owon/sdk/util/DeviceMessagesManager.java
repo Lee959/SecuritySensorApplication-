@@ -120,7 +120,6 @@ public class DeviceMessagesManager {
         // Create a list of simulated devices
         List<EPListBean> devices = new ArrayList<>();
 
-        // Add different types of security devices
         EPListBean motionSensor1 = new EPListBean("Motion Sensor - A", "ms001", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
         EPListBean motionSensor2 = new EPListBean("Motion Sensor - B", "ms002", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
         EPListBean smokeDetector1 = new EPListBean("Smoke Detector - A", "sd001", DeviceTypeCode.SMOKE_SENSOR_ZONE, true);
@@ -169,7 +168,6 @@ public class DeviceMessagesManager {
         if (motionSensor != null) {
             motionSensor.setDetected(true);
 
-            // Only trigger alarm if security system is armed
             if (securityStatus.isArmed()) {
                 for (SocketMessageListener listener : listeners) {
                     listener.getMessage(Constants.MotionSensor, motionSensor);
@@ -184,8 +182,6 @@ public class DeviceMessagesManager {
             smokeDetector = new SmokeDetectorBean(device.getId(), 1, false);
             smokeDetectors.put(device.getId(), smokeDetector);
         }
-
-        // For demo purposes, we're returning the current state
         for (SocketMessageListener listener : listeners) {
             listener.getMessage(Constants.WarningSensor, smokeDetector);
         }
@@ -196,7 +192,6 @@ public class DeviceMessagesManager {
         if (smokeDetector != null) {
             smokeDetector.setDetected(true);
 
-            // Only trigger alarm if security system is armed
             if (securityStatus.isArmed()) {
                 for (SocketMessageListener listener : listeners) {
                     listener.getMessage(Constants.WarningSensor, smokeDetector);
@@ -215,7 +210,6 @@ public class DeviceMessagesManager {
         }
     }
 
-    // Reset detection states (for demo purposes)
     public void resetMotionDetection(String deviceId) {
         MotionSensorBean motionSensor = motionSensors.get(deviceId);
         if (motionSensor != null) {

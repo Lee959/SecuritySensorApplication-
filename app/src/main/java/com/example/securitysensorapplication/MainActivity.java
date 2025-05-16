@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                 if (motionSensor.isDetected()) {
                     addEventLog(device.getName() + " 检测到移动");
                 }
-
                 break;
             }
         }
@@ -257,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("确认", (dialog, which) -> dialog.dismiss())
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.warning_24px)
                 .show();
     }
 
