@@ -19,7 +19,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="设备图标"
-            android:src="@android:drawable/ic_dialog_info" />
+            android:src="@drawable/info_24px" />
 
         <LinearLayout
             android:layout_width="0dp"
