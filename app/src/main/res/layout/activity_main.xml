@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +49,6 @@
                     android:id="@+id/arm_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:backgroundTint="#4CAF50"
                     android:text="布防" />
@@ -58,7 +57,6 @@
                     android:id="@+id/disarm_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:backgroundTint="#F44336"
                     android:enabled="false"
@@ -90,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:text="事件日志"
+        android:text="Log"
         android:textSize="16sp"
         android:textStyle="bold" />
 
