@@ -6,7 +6,7 @@ import com.example.securitysensorapplication.DeviceListBean;
 import com.example.securitysensorapplication.DeviceTypeCode;
 import com.example.securitysensorapplication.EPListBean;
 import com.example.securitysensorapplication.MotionSensorBean;
-import com.example.securitysensorapplication.SecurityStatusBean;
+import com.example.securitysensorapplication.z_SecurityQueryStatusBean;
 import com.example.securitysensorapplication.SmokeDetectorBean;
 
 import java.util.ArrayList;
@@ -14,22 +14,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Enhanced Device message manager class for security sensors
- */
+
 public class DeviceMessagesManager {
     private static final String TAG = "DeviceMessagesManager";
     private static DeviceMessagesManager instance;
     private List<SocketMessageListener> listeners;
     private Map<String, EPListBean> deviceMap;
-    private SecurityStatusBean securityStatus;
+    private z_SecurityQueryStatusBean securityStatus;
     private Map<String, MotionSensorBean> motionSensors;
     private Map<String, SmokeDetectorBean> smokeDetectors;
 
     private DeviceMessagesManager() {
         listeners = new ArrayList<>();
         deviceMap = new HashMap<>();
-        securityStatus = new SecurityStatusBean();
+        securityStatus = new z_SecurityQueryStatusBean();
         motionSensors = new HashMap<>();
         smokeDetectors = new HashMap<>();
     }
@@ -51,12 +49,11 @@ public class DeviceMessagesManager {
         listeners.remove(listener);
     }
 
+    // Simulate successful login
     public void LoginSocket(Object context, String account, String password) {
-        // Simulate successful login - would connect to server in a real app
         Log.d(TAG, "Login attempt with: " + account + ", " + password);
 
-        // For demo, we'll assume login is successful
-        Object loginResponse = new Object(); // In a real app, create a proper login response bean
+        Object loginResponse = new Object();
         for (SocketMessageListener listener : listeners) {
             listener.getMessage(100, loginResponse); // 100 is success code for login
         }
@@ -124,11 +121,11 @@ public class DeviceMessagesManager {
         List<EPListBean> devices = new ArrayList<>();
 
         // Add different types of security devices
-        EPListBean motionSensor1 = new EPListBean("Motion Sensor - Living Room", "ms001", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
-        EPListBean motionSensor2 = new EPListBean("Motion Sensor - Kitchen", "ms002", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
-        EPListBean smokeDetector1 = new EPListBean("Smoke Detector - Bedroom", "sd001", DeviceTypeCode.SMOKE_SENSOR_ZONE, true);
-        EPListBean smokeDetector2 = new EPListBean("Smoke Detector - Kitchen", "sd002", DeviceTypeCode.SMOKE_SENSOR_ZONE, true);
-        EPListBean securityAlarm = new EPListBean("Security Alarm", "sa001", DeviceTypeCode.WARN_SENSOR, true);
+        EPListBean motionSensor1 = new EPListBean("Motion Sensor - A", "ms001", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
+        EPListBean motionSensor2 = new EPListBean("Motion Sensor - B", "ms002", DeviceTypeCode.MOTION_SENSOR_ZONE, true);
+        EPListBean smokeDetector1 = new EPListBean("Smoke Detector - A", "sd001", DeviceTypeCode.SMOKE_SENSOR_ZONE, true);
+        EPListBean smokeDetector2 = new EPListBean("Smoke Detector - B", "sd002", DeviceTypeCode.SMOKE_SENSOR_ZONE, true);
+        EPListBean securityAlarm = new EPListBean("Security Alarm - A", "sa001", DeviceTypeCode.WARN_SENSOR, true);
 
         devices.add(motionSensor1);
         devices.add(motionSensor2);
@@ -136,7 +133,6 @@ public class DeviceMessagesManager {
         devices.add(smokeDetector2);
         devices.add(securityAlarm);
 
-        // Store devices in our map for later use
         deviceMap.clear();
         for (EPListBean device : devices) {
             deviceMap.put(device.getId(), device);
@@ -163,7 +159,6 @@ public class DeviceMessagesManager {
             motionSensors.put(device.getId(), motionSensor);
         }
 
-        // For demo purposes, we're returning the current state
         for (SocketMessageListener listener : listeners) {
             listener.getMessage(Constants.MotionSensorUpdate, motionSensor);
         }

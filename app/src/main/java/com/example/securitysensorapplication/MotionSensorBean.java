@@ -1,8 +1,5 @@
 package com.example.securitysensorapplication;
 
-/**
- * Bean class for motion sensor data
- */
 public class MotionSensorBean {
     private String ieee;        // Device physical address
     private int ep;             // Device endpoint

@@ -47,14 +47,12 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize UI components
         recyclerView = findViewById(R.id.device_list);
         securityStatusText = findViewById(R.id.security_status);
         armButton = findViewById(R.id.arm_button);
         disarmButton = findViewById(R.id.disarm_button);
         eventLogText = findViewById(R.id.event_log);
 
-        // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DeviceAdapter(this, deviceList, this);
         recyclerView.setAdapter(adapter);
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
         deviceManager = DeviceMessagesManager.getInstance();
         deviceManager.registerMessageListener(this);
 
-        // Set up button listeners
+        // Set up button listeners Default Value Set to 225
         armButton.setOnClickListener(v -> {
             deviceManager.SecurityDeployment(255);
             addEventLog("安全系统已布防");
@@ -74,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
             addEventLog("安全系统已撤防");
         });
 
-        // Simulate login and get device list
         login();
     }
 
@@ -109,9 +106,8 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                     break;
 
                 case Constants.UpdateSwitchgear:
-                    // This can be either a light switch update or security status update
-                    if (bean instanceof SecurityStatusBean) {
-                        handleSecurityStatus((SecurityStatusBean) bean);
+                    if (bean instanceof z_SecurityQueryStatusBean) {
+                        handleSecurityStatus((z_SecurityQueryStatusBean) bean);
                     }
                     break;
 
@@ -141,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
 
         List<EPListBean> allDevices = deviceListBean.getDevices();
         for (EPListBean device : allDevices) {
-            // Filter for security-related devices
             if (device.getDeviceType() == DeviceTypeCode.MOTION_SENSOR_ZONE ||
                     device.getDeviceType() == DeviceTypeCode.SMOKE_SENSOR_ZONE ||
                     device.getDeviceType() == DeviceTypeCode.WARN_SENSOR) {
@@ -158,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
         }
     }
 
-    private void handleSecurityStatus(SecurityStatusBean statusBean) {
+    private void handleSecurityStatus(z_SecurityQueryStatusBean statusBean) {
         isSecurityArmed = "on".equals(statusBean.getStatus());
 
         if (isSecurityArmed) {
@@ -175,12 +170,11 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
     }
 
     private void handleMotionSensorUpdate(MotionSensorBean motionSensor) {
-        // This is just a status update, not a detection event
         for (EPListBean device : deviceList) {
             if (device.getId().equals(motionSensor.getIeee()) &&
                     device.getDeviceType() == DeviceTypeCode.MOTION_SENSOR_ZONE) {
 
-                // Update the UI as needed
+                // Update the UI
                 adapter.updateDeviceStatus(device, motionSensor.isDetected());
 
                 if (motionSensor.isDetected()) {
@@ -193,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
     }
 
     private void handleMotionDetection(MotionSensorBean motionSensor) {
-        // This is an actual motion detection event
         if (motionSensor.isDetected()) {
             for (EPListBean device : deviceList) {
                 if (device.getId().equals(motionSensor.getIeee()) &&
@@ -206,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                     String eventMessage = device.getName() + " 检测到移动!";
                     addEventLog(eventMessage);
 
-                    // Show alert if system is armed
                     if (isSecurityArmed) {
                         showAlertDialog("移动警报", eventMessage);
                     }
@@ -235,10 +227,8 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                     String eventMessage = device.getName() + " 检测到烟雾! 危险!";
                     addEventLog(eventMessage);
 
-                    // Always show alert for smoke detection, regardless of arm status
                     showAlertDialog("烟雾警报", eventMessage);
 
-                    // Reset after a delay for demo purposes
                     handler.postDelayed(() -> {
                         deviceManager.resetSmokeDetection(device.getId());
                     }, 10000);
@@ -253,9 +243,8 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
         String timestamp = dateFormat.format(new Date());
         String logEntry = timestamp + " - " + message + "\n";
 
-        eventLog.insert(0, logEntry); // Add newest events at the top
+        eventLog.insert(0, logEntry);
 
-        // Limit log size
         if (eventLog.length() > 1000) {
             eventLog.setLength(1000);
         }
@@ -274,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
 
     @Override
     public void onDeviceClick(EPListBean device) {
-        // Show device details
         String details = "设备名称: " + device.getName() + "\n" +
                 "设备类型: " + device.getDeviceTypeName() + "\n" +
                 "设备ID: " + device.getId() + "\n" +
@@ -287,9 +275,10 @@ public class MainActivity extends AppCompatActivity implements SocketMessageList
                 .show();
     }
 
+
+    // Simulate a detection event for demo purposes
     @Override
     public void onStatusButtonClick(EPListBean device) {
-        // Simulate a detection event for demo purposes
         if (device.getDeviceType() == DeviceTypeCode.MOTION_SENSOR_ZONE) {
             deviceManager.simulateMotionDetected(device.getId());
             Toast.makeText(this, "模拟移动检测", Toast.LENGTH_SHORT).show();

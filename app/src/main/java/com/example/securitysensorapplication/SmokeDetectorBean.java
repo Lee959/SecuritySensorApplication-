@@ -1,8 +1,6 @@
 package com.example.securitysensorapplication;
 
-/**
- * Bean class for smoke detector data
- */
+
 public class SmokeDetectorBean {
     private String ieee;        // Device physical address
     private int ep;             // Device endpoint

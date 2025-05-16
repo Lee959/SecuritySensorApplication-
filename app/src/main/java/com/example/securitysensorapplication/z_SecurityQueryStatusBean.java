@@ -1,16 +1,15 @@
 package com.example.securitysensorapplication;
-// z_SecurityQueryStatusBean
 
-public class SecurityStatusBean {
+public class z_SecurityQueryStatusBean {
     private String status;  // "on" for armed, "off" for disarmed
     private String ieee;    // Device physical address
     private int ep;         // Device endpoint
 
-    public SecurityStatusBean() {
+    public z_SecurityQueryStatusBean() {
         this.status = "off"; // Default to disarmed
     }
 
-    public SecurityStatusBean(String status, String ieee, int ep) {
+    public z_SecurityQueryStatusBean(String status, String ieee, int ep) {
         this.status = status;
         this.ieee = ieee;
         this.ep = ep;

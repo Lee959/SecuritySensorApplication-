@@ -12,16 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-/**
- * Adapter for displaying security devices in a RecyclerView
- */
+
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder> {
 
     private List<EPListBean> devices;
     private Context context;
     private OnDeviceClickListener listener;
 
-    // Interface for click events
     public interface OnDeviceClickListener {
         void onDeviceClick(EPListBean device);
         void onStatusButtonClick(EPListBean device);
@@ -48,7 +45,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         holder.deviceName.setText(device.getName());
         holder.deviceType.setText(device.getDeviceTypeName());
 
-        // Set status indicator based on device link status
         if (device.isLinkStatus()) {
             holder.deviceStatus.setText("在线");
             holder.deviceStatus.setTextColor(context.getResources().getColor(android.R.color.holo_green_dark));
@@ -57,7 +53,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             holder.deviceStatus.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
         }
 
-        // Set icon based on device type using standard Android icons instead of custom drawables
         switch (device.getDeviceType()) {
             case DeviceTypeCode.MOTION_SENSOR_ZONE:
                 holder.deviceIcon.setImageResource(R.drawable.motion_sensor_24px);
@@ -73,7 +68,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
                 break;
         }
 
-        // Set click listeners
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onDeviceClick(device);
